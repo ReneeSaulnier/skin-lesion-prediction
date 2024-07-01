@@ -14,7 +14,12 @@
 
 import os
 import pandas as pd
+import numpy as np
 import plotly.express as px
+import matplotlib.pyplot as plt
+import tensorflow as tf
+import keras
+from keras import layers
 
 # # Pipeline
 
@@ -23,6 +28,8 @@ import plotly.express as px
 # Explore the text data
 text_data_df = pd.read_csv('data/isic-2024-challenge/train-metadata.csv')
 text_data_df.head()
+
+# ### EDA for the text data
 
 # +
 # Disribution of the target variable
@@ -58,7 +65,38 @@ fig = px.histogram(malignant_df, x='age_approx', title='Distribution of the age 
 fig.show()
 
 
-# ### EDA
+# ### EDA for the image data
+
+# +
+# Load the training dataset
+train_ds = keras.utils.image_dataset_from_directory(
+    'data/isic-2024-challenge/train-image',
+    validation_split=0.2,
+    subset='training',
+    seed=123,
+    image_size=(256, 256),
+    batch_size=32
+)
+
+# Load the validation dataset
+val_ds = keras.utils.image_dataset_from_directory(
+    'data/isic-2024-challenge/train-image',
+    validation_split=0.2,
+    subset='validation',
+    seed=123,
+    image_size=(256, 256),
+    batch_size=32
+)
+# -
+
+# Use plotly to visualize the images
+plt.figure(figsize=(10, 10))
+for images, labels in train_ds.take(1):
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        plt.imshow(np.array(images[i]).astype("uint8"))
+        plt.title(int(labels[i]))
+        plt.axis("off")
 
 # ### Data Processing
 
