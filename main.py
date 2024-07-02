@@ -12,7 +12,6 @@
 #     name: python3
 # ---
 
-import os
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -65,6 +64,10 @@ fig = px.histogram(malignant_df, x='age_approx', title='Distribution of the age 
 fig.show()
 
 
+train_df = pd.read_csv('data/isic-2024-challenge/train-metadata.csv')
+test_df = pd.read_csv('data/isic-2024-challenge/test-metadata.csv')
+
+
 # ### EDA for the image data
 
 # +
@@ -99,6 +102,10 @@ for images, labels in train_ds.take(1):
         plt.axis("off")
 
 # ### Data Processing
+
+# - ##### Preprocess Text Data
+
+# - #### Preprocess Image Data
 
 # ### Model Training
 
