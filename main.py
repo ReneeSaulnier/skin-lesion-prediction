@@ -18,7 +18,7 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import tensorflow as tf
 import keras
-from keras import layers
+from keras import layers, models
 
 # # Pipeline
 
@@ -72,7 +72,7 @@ test_df = pd.read_csv('data/isic-2024-challenge/test-metadata.csv')
 
 # +
 # Load the training dataset
-train_ds = keras.utils.image_dataset_from_directory(
+image_train_ds = tf.keras.utils.image_dataset_from_directory(
     'data/isic-2024-challenge/train-image',
     validation_split=0.2,
     subset='training',
@@ -82,7 +82,7 @@ train_ds = keras.utils.image_dataset_from_directory(
 )
 
 # Load the validation dataset
-val_ds = keras.utils.image_dataset_from_directory(
+image_val_ds = tf.keras.utils.image_dataset_from_directory(
     'data/isic-2024-challenge/train-image',
     validation_split=0.2,
     subset='validation',
@@ -92,20 +92,20 @@ val_ds = keras.utils.image_dataset_from_directory(
 )
 # -
 
-# Use plotly to visualize the images
-plt.figure(figsize=(10, 10))
-for images, labels in train_ds.take(1):
-    for i in range(9):
-        ax = plt.subplot(3, 3, i + 1)
-        plt.imshow(np.array(images[i]).astype("uint8"))
-        plt.title(int(labels[i]))
-        plt.axis("off")
-
 # ### Data Processing
 
 # - ##### Preprocess Text Data
 
 # - #### Preprocess Image Data
+
+# +
+
+data_it = image_train_ds.as_numpy_iterator()
+image_data_batch = data_it.next()
+# -
+
+# Scale the image data
+image_data_batch = image_data_batch.map(lambda x, y: (x / 255, y))
 
 # ### Model Training
 
