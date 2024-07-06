@@ -14,11 +14,14 @@
 
 import pandas as pd
 import numpy as np
+import tensorflow as tf
 import plotly.express as px
 import matplotlib.pyplot as plt
-import tensorflow as tf
 import keras
 from keras import layers, models
+import h5py
+from PIL import Image
+import io
 
 # # Pipeline
 
@@ -71,25 +74,37 @@ test_df = pd.read_csv('data/isic-2024-challenge/test-metadata.csv')
 # ### EDA for the image data
 
 # +
-# Load the training dataset
+# Load the training datasets
 image_train_ds = tf.keras.utils.image_dataset_from_directory(
     'data/isic-2024-challenge/train-image',
-    validation_split=0.2,
-    subset='training',
     seed=123,
-    image_size=(256, 256),
-    batch_size=32
+    batch_size=32,
+    validation_split=0.2,
+    subset="training",
+    shuffle=True
 )
 
-# Load the validation dataset
 image_val_ds = tf.keras.utils.image_dataset_from_directory(
     'data/isic-2024-challenge/train-image',
-    validation_split=0.2,
-    subset='validation',
     seed=123,
-    image_size=(256, 256),
-    batch_size=32
+    batch_size=32,
+    validation_split=0.2,
+    subset="validation",
+    shuffle=True
 )
+
+# Load the test datasets
+file_path = 'data/isic-2024-challenge/test-image/image/test-image.hdf5'
+image_test_ds = []
+
+with h5py.File(file_path, "r") as f:
+    dataset_names = ['ISIC_0015657', 'ISIC_0015729', 'ISIC_0015740']
+    
+    for dataset_name in dataset_names:
+        image_data_bytes = f[dataset_name][()]
+        image = Image.open(io.BytesIO(image_data_bytes))
+        image_array = np.array(image)
+        image_test_ds.append(image_array)
 # -
 
 # ### Data Processing
@@ -98,14 +113,10 @@ image_val_ds = tf.keras.utils.image_dataset_from_directory(
 
 # - #### Preprocess Image Data
 
-# +
-
-data_it = image_train_ds.as_numpy_iterator()
-image_data_batch = data_it.next()
-# -
-
 # Scale the image data
-image_data_batch = image_data_batch.map(lambda x, y: (x / 255, y))
+image_train_ds = image_train_ds.map(lambda x, y: (x / 255, y))
+data_it = image_train_ds.as_numpy_iterator()
+batch = data_it.next()
 
 # ### Model Training
 
