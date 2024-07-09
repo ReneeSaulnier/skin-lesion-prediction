@@ -1,7 +1,7 @@
 # ISIC 2024 - Skin Cancer Detection with 3D-TBP
 
 ## Introduction
-This repository contains the code for for the [ISIC 2024 - Skin Cancer Detection with 3D-TBP competition on Kaggle](https://www.kaggle.com/competitions/isic-2024-challenge). The pipeline consists of five main steps: Data Collection, Exploratory Data Analysis (EDA), Data Processing, Model Training, and Model Validation.
+This repository contains the code for the [ISIC 2024 - Skin Cancer Detection with 3D-TBP competition on Kaggle](https://www.kaggle.com/competitions/isic-2024-challenge). The pipeline consists of five main steps: Data Collection, Exploratory Data Analysis (EDA), Data Processing, Model Training, and Model Validation.
 
 ## Setup
 Install the requirements.txt file in a conda environment. Use jupytext to convert the main.py file to a notebook.
