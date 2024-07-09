@@ -18,7 +18,7 @@ import tensorflow as tf
 import plotly.express as px
 import matplotlib.pyplot as plt
 import keras
-from keras import layers, models
+from keras import layers, models, optimizers
 import h5py
 from PIL import Image
 import io
@@ -27,7 +27,6 @@ import io
 
 # ### Data Collection
 
-# Explore the text data
 text_data_df = pd.read_csv('data/isic-2024-challenge/train-metadata.csv')
 text_data_df.head()
 
@@ -71,7 +70,7 @@ train_df = pd.read_csv('data/isic-2024-challenge/train-metadata.csv')
 test_df = pd.read_csv('data/isic-2024-challenge/test-metadata.csv')
 
 
-# ### EDA for the image data
+# ### Data Processing
 
 # +
 # Load the training datasets
@@ -107,17 +106,35 @@ with h5py.File(file_path, "r") as f:
         image_test_ds.append(image_array)
 # -
 
-# ### Data Processing
-
-# - ##### Preprocess Text Data
-
-# - #### Preprocess Image Data
-
 # Scale the image data
 image_train_ds = image_train_ds.map(lambda x, y: (x / 255, y))
 data_it = image_train_ds.as_numpy_iterator()
 batch = data_it.next()
 
 # ### Model Training
+
+# +
+
+model = models.Sequential([
+
+    # 3 convolutional layers with max pooling
+    layers.Conv2D(16, (3, 3), activation='relu', input_shape=(256, 256, 3)),
+    layers.MaxPooling2D(),
+    layers.Conv2D(32, (3, 3), activation='relu'),
+    layers.MaxPooling2D(),
+    layers.Conv2D(64, (3, 3), activation='relu'),
+    layers.MaxPooling2D(),
+    
+    # Flatten the output of the last convolutional/pooling layer
+    layers.Flatten(),
+    
+    layers.Dense(128, activation='relu'),
+    layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
+# Train the model
+model.fit(image_train_ds, epochs=20, validation_data=image_val_ds)
+# -
 
 # ### Model Validation
