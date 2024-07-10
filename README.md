@@ -4,9 +4,18 @@
 This repository contains the code for the [ISIC 2024 - Skin Cancer Detection with 3D-TBP competition on Kaggle](https://www.kaggle.com/competitions/isic-2024-challenge). The pipeline consists of five main steps: Data Collection, Exploratory Data Analysis (EDA), Data Processing, Model Training, and Model Validation.
 
 ## Setup
-Install the requirements.txt file in a conda environment. Use jupytext to convert the main.py file to a notebook.
+1. Must have a virtual environment (ex. conda).
+1. In the environment.yaml file, refactor environment name if needed.
+2. Run the command to setup the environment: 
 ```bash
-conda create --name myenv --file requirements.txt
+conda env create -f environment.yaml
+```
+4. Activate the newly created conda environment:
+```bash
+conda activate myenv
+```bash
+3. Use jupytext to convert the main.py file to a notebook.
+```bash
 jupytext --to ipynb main.py
 ```
 

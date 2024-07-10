@@ -1,7 +1,0 @@
-jupytext==1.16.2
-plotly==5.22.0
-pandas==2.2.2
-ipykernel==6.29.4
-keras==3.4.1
-tensorflow==2.16.1
-matplotlib==3.8.4
