@@ -134,7 +134,20 @@ model = models.Sequential([
 
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 # Train the model
-model.fit(image_train_ds, epochs=20, validation_data=image_val_ds)
+model.fit(image_train_ds, epochs=1, validation_data=image_val_ds)
+
+# Save the trained model
+model.save('model.h5')
+
+# Evaluate the model
+# FIXME! Test data set does not have the same number of samples as the training data set
+model.evaluate(image_test_ds)
+
+# Predict the test data
+predictions = model.predict(image_test_ds)
+
+# Save the predictions
+np.save('predictions.npy', predictions)
 # -
 
 # ### Model Validation

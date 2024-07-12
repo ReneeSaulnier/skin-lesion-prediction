@@ -5,4 +5,4 @@ data/isic-2024-challenge/*
 *.ipynb
 
 # Model files
-models/*
+model/*
