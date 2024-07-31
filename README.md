@@ -9,12 +9,12 @@ This repository contains the code for the [ISIC 2024 - Skin Cancer Detection wit
 2. Run the command to setup the environment: 
 ```bash
 conda env create -f environment.yaml
-```
-4. Activate the newly created conda environment:
+````
+3. Activate the newly created conda environment:
 ```bash
 conda activate myenv
-```bash
-3. Use jupytext to convert the main.py file to a notebook.
+```
+4. Use jupytext to convert the main.py file to a notebook.
 ```bash
 jupytext --to ipynb main.py
 ```
