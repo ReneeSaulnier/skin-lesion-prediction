@@ -1,5 +1,5 @@
 # Dataset files
-data/isic-2024-challenge/*
+data/archive/*
 
 # Notebook files
 *.ipynb

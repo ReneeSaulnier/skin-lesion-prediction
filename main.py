@@ -27,34 +27,34 @@ import io
 
 # ### Data Collection
 
-text_data_df = pd.read_csv('data/isic-2024-challenge/train-metadata.csv')
+text_data_df = pd.read_csv('data/archive/train_metadata.csv')
+#text_data_df = pd.read_csv('data/isic-2024-challenge/train-metadata.csv')
 text_data_df.head()
 
 # ### EDA for the text data
 
 # +
 # Disribution of the target variable
-
 # 0 - Benign
 # 1 - Malignant
-text_data_df['target'].value_counts()
+text_data_df['dx'].value_counts()
 
-malignant_df = text_data_df[text_data_df['target'] == 1]
+malignant_df = text_data_df[text_data_df['dx'] == 1]
 
 # +
 # Group the data by sex and target (benign or malignant)
-grouped_data = text_data_df.groupby(['sex', 'target']).size().reset_index(name='count')
+grouped_data = text_data_df.groupby(['sex', 'dx']).size().reset_index(name='count')
 
 # Plot the grouped data
-fig = px.bar(grouped_data, x='sex', y='count', color='target', barmode='group', 
-             labels={'sex': 'Sex', 'count': 'Count', 'target': 'Lesion Type'},
+fig = px.bar(grouped_data, x='sex', y='count', color='dx', barmode='group', 
+             labels={'sex': 'Sex', 'count': 'Count', 'dx': 'Lesion Type'},
              title='Distribution of the sexes')
 
 fig.show()
 
 # +
 # See if there is a correlation between the target variable and the anatom_site_general
-grouped_data = malignant_df.groupby(['anatom_site_general', 'target']).size().reset_index(name='count')
+grouped_data = malignant_df.groupby(['anatom_site_general', 'dx']).size().reset_index(name='count')
 
 fig = px.pie(grouped_data, values='count', names='anatom_site_general', title='Distribution of the anatomical sites where a malignant lesion is found')
 

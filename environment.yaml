@@ -9,3 +9,4 @@ dependencies:
   - keras=3.4.1
   - tensorflow=2.16.1
   - matplotlib=3.8.4
+  - kagglehub=0.2.7
